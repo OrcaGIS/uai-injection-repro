@@ -1,0 +1,33 @@
+name: UA-002 reproduction (benign)
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  repro:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ===== VERBATIM COPY of ultimateai/workflows manual-deploy.yml lines 204-209 =====
+      - name: Changelog content
+        id: full_changelog_content
+        run: |
+          echo "FILE_CONTENT_CHANGELOG<<FEND" >> $GITHUB_ENV
+          head -40 CHANGELOG.md | tr -d '"' >> $GITHUB_ENV
+          echo "FEND" >> $GITHUB_ENV
+
+      # ===== VERBATIM COPY of manual-deploy.yml lines 252-257 (the sink) =====
+      - name: Changelog content
+        id: filter_changelog
+        run: |
+          echo "FILTERED_CHANGELOG_CONTENT<<IPO" >> $GITHUB_ENV
+          echo "${{ env.FILE_CONTENT_CHANGELOG }}" | sed '/\.\.\.v0.0.0/q'| tac | sed '1,4 d' | tac >> $GITHUB_ENV
+          echo "IPO" >> $GITHUB_ENV
+
+      # ===== Demonstration-only step: show execution result (benign artifacts) =====
+      - name: Verify benign execution artifacts
+        run: |
+          echo "== files created by injected command-substitution =="
+          ls -la PWNED* 2>/dev/null || true
+          echo "== content =="
+          cat PWNED*.txt 2>/dev/null || echo "(no artifact found)"
