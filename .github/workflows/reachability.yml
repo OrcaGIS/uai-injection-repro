@@ -1,6 +1,9 @@
-name: UA-002 reachability test (vendor callable cross-org)
-on: workflow_dispatch
+name: UA-002 reachability test v2 (vendor callable succeeds)
+on:
+  pull_request:
+    types: [opened, synchronize]
 jobs:
+  # Vendor's REAL reusable workflow invoked cross-org from OUR repo's PR context
   call-vendor-lint:
     uses: ultimateai/workflows/.github/workflows/lint-pr.yml@main
     with:
