@@ -1,19 +1,17 @@
 name: UA-002 reachability test (invoking vendor's real callable)
 on: workflow_dispatch
 jobs:
+  # TOP-LEVEL job-level reference to the VENDOR's real reusable deploy workflow
   call-vendor-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "invoking ultimateai/workflows manual-deploy.yml cross-org..."
-      - uses: ultimateai/workflows/.github/workflows/manual-deploy.yml@master
-        with:
-          image_repo: "europe-west1-docker.pkg.dev/test/test"
-          app_squad: "backend"
-          environment: "staging"
-          github_email: "t@t.test"
-          github_user: "tester"
-          k8s_manifests_repo: "OrcaGIS/uai-e2e-chain"
-          e2e_repo: "OrcaGIS/uai-e2e-chain"
-          e2e_projects: "chromium"
-          e2e_bucket_name: "test-bucket"
-          runner: ubuntu-latest
+    uses: ultimateai/workflows/.github/workflows/manual-deploy.yml@master
+    with:
+      image_repo: "europe-west1-docker.pkg.dev/test/test"
+      app_squad: "backend"
+      environment: "staging"
+      github_email: "t@t.test"
+      github_user: "tester"
+      k8s_manifests_repo: "OrcaGIS/uai-e2e-chain"
+      e2e_repo: "OrcaGIS/uai-e2e-chain"
+      e2e_projects: "chromium"
+      e2e_bucket_name: "test-bucket"
+      runner: ubuntu-latest
