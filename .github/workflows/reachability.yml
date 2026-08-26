@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   # TOP-LEVEL job-level reference to the VENDOR's real reusable deploy workflow
   call-vendor-deploy:
-    uses: ultimateai/workflows/.github/workflows/manual-deploy.yml@master
+    uses: ultimateai/workflows/.github/workflows/manual-deploy.yml@main
     with:
       image_repo: "europe-west1-docker.pkg.dev/test/test"
       app_squad: "backend"
